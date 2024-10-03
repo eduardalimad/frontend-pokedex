@@ -18,10 +18,6 @@ import SwitchButton from './SwitchButton.vue';
 
 <style scoped lang="scss">
 $navbar-shadow: rgba(0, 0, 0, 0.1);
-$link-color: black;
-$link-hover-color: #ff5350;
-$link-active-color: #ff5350;
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -29,6 +25,7 @@ $link-active-color: #ff5350;
   padding: 1rem;
   box-shadow: 0 2px 5px $navbar-shadow;
   gap: 1rem;
+  background-color: var(--bgNavbar);
 
  .navbar-content{
   display: flex;
