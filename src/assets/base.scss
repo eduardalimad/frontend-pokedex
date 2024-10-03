@@ -19,16 +19,29 @@ body {
   --bgDefault: #eee8e8;
   --defaultColorText: #121212;
   --primaryColor: #3498db;
+  --bgNavbar: #fbf8f8f2;
+  --textNavbar: #ecf0f1;
 }
 
 .light-theme {
   --bgDefault: #f5fbfb;
   --defaultColorText: #121212;
   --primaryColor: #3498db;
+  --bgNavbar: #fbf8f8f2;
+  --textNavbar: #121212;
 }
 
 .dark-theme {
-  --bgDefault: #121212;
+  --bgDefault: #171c1f;
   --defaultColorText: #ecf0f1;
   --primaryColor: #9b59b6;
+  --bgNavbar: #1d2327; 
+  --textNavbar: #ffffff;
+}
+
+.navbar {
+  background-color: var(--bgNavbar);
+  a{
+    color: var(--textNavbar);
+  }
 }
