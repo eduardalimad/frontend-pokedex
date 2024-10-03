@@ -21,10 +21,6 @@ const isActive = computed(() => route.path === props.to);
 </script>
 
 <style scoped lang="scss">
-$link-color: black;
-$link-hover-color: #ff5350;
-$link-active-color: #ff5350;
-
 a {
   cursor: pointer;
   padding: 10px;
@@ -35,11 +31,11 @@ a {
   gap: 0.5rem;
 
   &:hover {
-    color: $link-hover-color;
+    color: var(--red-default);
   }
 
   &.active {
-    color: $link-active-color;
+    color: var(--red-default);
     font-weight: 600;
     transform: scale(0.95);
     transition: transform 0.1s;
