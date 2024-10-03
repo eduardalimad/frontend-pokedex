@@ -1,0 +1,33 @@
+/* color palette from <https://github.com/vuejs/theme> */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--defaultColorText);
+  background-color: var(--bgDefault);
+}
+
+:root {
+  --bgDefault: #ffffff;
+  --defaultColorText: #000000;
+  --primaryColor: #3498db;
+}
+
+.light-theme {
+  --bgDefault: #ffffff;
+  --defaultColorText: #000000;
+  --primaryColor: #3498db;
+}
+
+.dark-theme {
+  --bgDefault: #2c3e50;
+  --defaultColorText: #ecf0f1;
+  --primaryColor: #9b59b6;
+}

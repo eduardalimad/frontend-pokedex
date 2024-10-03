@@ -1,0 +1,23 @@
+@import './base.scss';
+
+html {
+  @media (max-width: 1080px) {
+    font-size: 93.75%;
+    //16*0,9373= 15px
+  }
+  @media (max-width: 768px) {
+    font-size: 87.5%;
+    //16*0,875 = 14px
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+
