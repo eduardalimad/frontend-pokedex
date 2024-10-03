@@ -12,4 +12,9 @@ import NavbarDefault from '@/components/NavbarDefault.vue';
 
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+main {
+    padding: 2rem;
+}
+
+</style>
