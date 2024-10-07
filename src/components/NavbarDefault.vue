@@ -26,7 +26,7 @@ $navbar-shadow: rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 5px $navbar-shadow;
   gap: 1rem;
   background-color: var(--bgNavbar);
-
+  height: 5rem;
  .navbar-content{
   display: flex;
  }

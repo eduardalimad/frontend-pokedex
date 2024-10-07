@@ -1,37 +1,16 @@
 <template>
     <div class="stats">
-        <h3>Estatísticas</h3>
-        <ul>
+        <ul  v-for="(item, id) in stats" :key="id" >
             <li>
-                <span>HP: </span><strong>{{ stats.hp }}</strong>
-                <progress :value="stats.hp" :max="100" :class="getProgressColor(stats.hp)"></progress>
-            </li>
-            <li>
-                <span>Attack: </span><strong>{{ stats.attack }}</strong>
-                <progress :value="stats.attack" :max="100" :class="getProgressColor(stats.attack)"></progress>
-            </li>
-            <li>
-                <span>Defense: </span><strong>{{ stats.defense }}</strong>
-                <progress :value="stats.defense" :max="100" :class="getProgressColor(stats.defense)"></progress>
-            </li>
-            <li>
-                <span>Special Attack:</span> <strong> {{ stats.specialAttack }}</strong>
-                <progress :value="stats.specialAttack" :max="100"
-                    :class="getProgressColor(stats.specialAttack)"></progress>
-            </li>
-            <li><span>Special Defense:</span> <strong> {{ stats.specialDefense }}</strong>
-                <progress :value="stats.specialDefense" :max="100"
-                    :class="getProgressColor(stats.specialDefense)"></progress>
-            </li>
-            <li><span>Speed:</span> <strong> {{ stats.speed }}</strong>
-                <progress :value="stats.speed" :max="100" :class="getProgressColor(stats.speed)"></progress>
+                <span>{{ capitalizeFirstLetter(item.stat.name) }}: <h5>{{ item.base_stat }}</h5> </span>
+                <progress :value="item.base_stat" :max="100" :class="getProgressColor(item.base_stat)"></progress>
             </li>
         </ul>
     </div>
 </template>
 
-<script setup>
-import { defineProps } from 'vue';
+<script setup lang="ts">
+import { capitalizeFirstLetter } from '../utils/utils.js';
 
 const props = defineProps({
     stats: {
@@ -40,31 +19,29 @@ const props = defineProps({
     },
 
 });
-const getProgressColor = (value) => {
+
+const getProgressColor = (value: number) => {
     return value < 50 ? 'progress-red' : 'progress-green';
 };
 </script>
 
 <style lang="scss">
 .stats {
-    margin-top: 20px;
-
-    h3 {
-        margin-bottom: 10px;
-    }
-
+    padding: 1rem;
     ul {
         list-style: none;
         padding: 0;
-
-
+        margin-bottom: .5rem;
+      
         li {
-            margin: 5px 0;
-            gap: 10px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
 
-
+            span {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+            }
         }
     }
 }
