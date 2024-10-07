@@ -27,9 +27,10 @@ body {
   --button-icon-dark:#ecf0f1;
   --bgSideBar: #fbf8f8f2;
   --red-default:  #ff5350;
+  --blue-default:  #4a90e2;;
   --green-default: rgb(112 189 143);
   --input-border-color: #ddd;
-  --input-focus-border-color: #4a90e2;
+  --input-focus-border-color: var(  --blue-default);
   --input-hover-border-color: #ccc;
   --input-placeholder-color: #aaa;
   --input-icon-color: #aaa;

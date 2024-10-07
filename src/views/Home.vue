@@ -239,6 +239,7 @@ onMounted(() => {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    background-color: var(--blue-default);
   }
   .scroll-to-top-button {
     position: fixed;
