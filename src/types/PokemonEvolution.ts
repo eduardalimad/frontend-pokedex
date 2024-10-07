@@ -18,7 +18,7 @@ export interface PokemonEvolution {
   evolutionDetails: EvolutionDetail[];
   species: string;
   url: string;
-  chain?: PokemonEvolutionChain; // Opcional
+  chain?: PokemonEvolutionChain; 
 }
 
 export interface PokemonEvolutionChain {

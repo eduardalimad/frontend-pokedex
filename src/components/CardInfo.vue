@@ -67,7 +67,6 @@ const selectCard = () => {
 
 @media screen and (max-width: 584px) {
     .pokemon-card {
-        // width: 100%;
         height: 10rem;
         display: flex;
         justify-content: space-between;

@@ -152,17 +152,6 @@ onMounted(() => {
   .div2 {
     grid-area: 1 / 2 / 2 / 3;
     padding: .5rem 1rem;
-    // border-right: solid 2px #E0E0E0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
-  }
-
-  .div3 {
-    grid-area: 1 / 3 / 2 / 4;
-    padding: .5rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

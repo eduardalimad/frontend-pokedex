@@ -235,16 +235,11 @@ onMounted(() => {
   .load-more-button {
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
-    // background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
-
-  .load-more-button:hover {
-    // background-color: #0056b3;
-}
   .scroll-to-top-button {
     position: fixed;
     bottom: 20px;
