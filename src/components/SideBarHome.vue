@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineEmits, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import PokemonAbout from './PokemonAbout.vue';
 import PokemonStats from './PokemonStats.vue';
 import PokemonEvolutions from './PokemonEvolutions.vue';

@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, defineProps, defineEmits, type PropType } from 'vue';
+import { ref, watch, type PropType } from 'vue';
 import PokemonTypeList from './PokemonTypeList.vue';
 import { getIdFromUrl } from '../utils/utils';
 import type { ProcessedEvolution } from '@/types/PokemonEvolution';
