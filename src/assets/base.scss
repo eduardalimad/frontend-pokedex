@@ -5,6 +5,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 
@@ -16,9 +17,10 @@ body {
 
 :root {
   --bgDefault: #eee8e8;
-  --defaultColorText: #121212;
+  --defaultColorText: #2a2a53;;
   --bgNavbar: #fbf8f8f2;
   --textDefault: #ecf0f1;
+  --textGrey: #666666;
   --background-light-card: rgba(255, 255, 255, 0.9); 
   --background-dark-card: rgba(56, 54, 54, 0.542); 
   --button-icon-light:#121212;
@@ -26,13 +28,19 @@ body {
   --bgSideBar: #fbf8f8f2;
   --red-default:  #ff5350;
   --green-default: rgb(112 189 143);
+  --input-border-color: #ddd;
+  --input-focus-border-color: #4a90e2;
+  --input-hover-border-color: #ccc;
+  --input-placeholder-color: #aaa;
+  --input-icon-color: #aaa;
+  --input-font-size: 16px;
 }
 
 .light-theme {
   --bgDefault: #f5fbfb;
-  --defaultColorText: #121212;
+  --defaultColorText: #2a2a53;
   --bgNavbar: #fbf8f8f2;
-  --textDefault: #121212;
+  --textDefault: #2a2a53;
   --background-card: var(--background-light-card);
   --button-color:var(--button-icon-light);
   --bgSideBar: var(--background-light-card);
