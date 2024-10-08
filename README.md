@@ -1,33 +1,32 @@
-# pokedex-frontend
+# Pokedex
 
-This template should help get you started developing with Vue 3 in Vite.
+Este projeto é uma aplicação front-end de uma Pokédex, desenvolvida com **Vue 3**, **Vite** e **SCSS**.
 
-## Recommended IDE Setup
+## 📋 Visão Geral do Projeto
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+A Pokédex permite aos usuários explorar informações sobre diferentes Pokémon, incluindo suas evoluções, tipos e estatísticas. A aplicação utiliza a PokeAPI para buscar e exibir dados de forma dinâmica.
 
-## Type Support for `.vue` Imports in TS
+## 🚀 Configuração Recomendada do IDE
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+Para um melhor desenvolvimento, recomenda-se usar:
 
-## Customize configuration
+- [VSCode](https://code.visualstudio.com/) com a extensão [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar). **Certifique-se de desabilitar o Vetur.**
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## 📦 Configuração do Projeto
 
-```sh
+Para configurar o projeto, execute o seguinte comando no terminal:
+
+```bash
 npm install
 ```
+## 🔥 Inicie o servidor de desenvolvimento com:
 
-### Compile and Hot-Reload for Development
-
-```sh
+```bash
 npm run dev
 ```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
+ou caso use YARN 
+``` 
+yarn 
+yarn dev
 ```
