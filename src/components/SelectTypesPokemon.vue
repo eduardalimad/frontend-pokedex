@@ -13,12 +13,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
+
 const props = defineProps({
   resetSelection: Boolean
 });
-const emit = defineEmits(['update:selectedType']);
+const emit = defineEmits<{
+  (e: 'update:selectedType', value: string | number): void;
+  (e: 'resetSelect'): void;
+}>();
 
 const types = [
+  { id: 100, name: 'All' },
   { id: 1, name: 'Normal' },
   { id: 2, name: 'Fighting' },
   { id: 3, name: 'Flying' },
@@ -40,10 +45,15 @@ const types = [
   { id: 19, name: 'Stellar' },
 ];
 
-const selectedType = ref("");
+const selectedType = ref<string | number>("");
 
-const emitSelectedType = () => {
-  emit('update:selectedType', selectedType.value);
+const emitSelectedType = (): void => {
+  if (selectedType.value !== 100) {
+    emit('update:selectedType', selectedType.value);
+  } else {
+    selectedType.value = ""; 
+    emit('resetSelect');
+  }
 };
 watch(() => props.resetSelection, (newVal) => {
   if (newVal) {
@@ -77,6 +87,8 @@ watch(() => props.resetSelection, (newVal) => {
     height: 2.5rem;
     background: var(--bgSideBar);
     color: var(--defaultColorText);
+    font-style: italic;
+    font-size: small;
 
     option:first {
       color: #999;
@@ -96,8 +108,6 @@ watch(() => props.resetSelection, (newVal) => {
     margin-top: 5px;
     font-size: 0.9em;
     color: #555;
-    font-style: italic;
-    font-size: small;
   }
 }
 </style>

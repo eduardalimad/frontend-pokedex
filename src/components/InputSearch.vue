@@ -38,6 +38,7 @@
     }
   
     .search-input {
+      
       width: 100%;
       padding: 10px 15px;
       font-size: var(--input-font-size);
@@ -62,6 +63,7 @@
         color: var(--placeholder-color);
         font-style: italic;
         font-size: small;
+        
       }
     }
   }

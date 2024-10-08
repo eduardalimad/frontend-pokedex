@@ -3,8 +3,7 @@
   </template>
   
   <style lang="scss" scoped>
-  $color-primary: rgb(254, 0, 1);
-  $color-background: white;
+  $color-background: rgba(255, 255, 255, 0.993);
   $border-color: black;
   $pokemon-size: 90px;
   $border-width: 5px;
@@ -13,7 +12,7 @@
     position: relative;
     height: $pokemon-size;
     width: $pokemon-size;
-    background: linear-gradient(to bottom, $color-primary 50%, $color-background 50%);
+    background: linear-gradient(to bottom, rgb(254, 0, 1) 50%, $color-background 50%);
     border-radius: 50%;
     border: $border-width solid $border-color;
     animation: spin 1s linear infinite;
