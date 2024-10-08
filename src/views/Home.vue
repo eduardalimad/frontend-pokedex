@@ -1,39 +1,49 @@
 <template>
-  <header class="header">
-    <h1>Pokedex</h1>
-    <section class="header-controls">
-      <InputSearch @update:search="handleSearch" />
-      <SelectTypesPokemon @update:selectedType="handleSelectedType" :resetSelection="resetSelection" />
-    </section>
-  </header>
-  
   <div class="content-main">
+    <header class="header">
+      <h1>Pokedex</h1>
+      <section class="header-controls">
+        <InputSearch @update:search="handleSearch" />
+        <SelectTypesPokemon
+          @update:selectedType="handleSelectedType"
+          :resetSelection="resetSelection"
+          @resetSelect="loadMore"
+        />
+      </section>
+    </header>
 
     <section class="grid-container">
-      <CardInfo 
-        v-for="(item, index) in filteredPokemon" 
-        :key="item.id" 
-        :name="item.name" 
-        :idNumber="Number(item.id)"  
-        @select-card="handleSelectCard" 
+      <CardInfo
+        v-for="(item, index) in filteredPokemon"
+        :key="index"
+        :name="item.name"
+        :idNumber="Number(item.id)"
+        @select-card="handleSelectCard"
         class="card-item"
       />
     </section>
-   
 
     <transition name="slide">
-      <SideBarHome 
-        v-if="selectedCard" 
-        @close="handleCloseSidebar" 
-        :card="selectedCard" 
+      <SideBarHome
+        v-if="selectedCard"
+        @close="handleCloseSidebar"
+        :card="selectedCard"
       />
     </transition>
     <div class="footer">
-      <button v-if="!isLoading && filteredPokemon.length >= 24" @click="loadMore" class="load-more-button">
+      <button
+        v-if="!isLoading && filteredPokemon.length >= 24"
+        @click="loadMore"
+        class="load-more-button"
+      >
         Carregar mais Pokémon
       </button>
 
-      <button v-if="filteredPokemon.length > 50" @click="scrollToTop" class="scroll-to-top-button">
+      <button
+        v-if="filteredPokemon.length > 50"
+        @click="scrollToTop"
+        class="scroll-to-top-button"
+      >
         <font-awesome-icon :icon="['fas', 'arrow-up']" color="white" />
       </button>
     </div>
@@ -44,34 +54,34 @@
 </template>
 
 <script setup lang="ts">
-
-import { ref, onMounted } from 'vue';
-import CardInfo from '../components/CardInfo.vue';
-import InputSearch from '../components/InputSearch.vue';
-import SelectTypesPokemon from '../components/SelectTypesPokemon.vue';
-import SideBarHome from '../components/SideBarHome.vue';
-import LoadSpinner from '@/components/LoadSpinner.vue';
-import http from '../services/reports/index';
-import { getIdFromUrl } from '../utils/utils';
-import axios from 'axios';
-import type { PokemonTypes,PokemonItem  } from '@/types/PokemonEvolution';
+import { ref, onMounted } from "vue";
+import CardInfo from "../components/CardInfo.vue";
+import InputSearch from "../components/InputSearch.vue";
+import SelectTypesPokemon from "../components/SelectTypesPokemon.vue";
+import SideBarHome from "../components/SideBarHome.vue";
+import LoadSpinner from "@/components/LoadSpinner.vue";
+import http from "../services/reports/index";
+import { getIdFromUrl } from "../utils/utils";
+import axios from "axios";
+import type { PokemonTypes, PokemonItem } from "@/types/PokemonEvolution";
 
 const isLoading = ref(false);
 const dataList = ref<PokemonItem[]>([]);
-const filteredPokemon = ref<PokemonTypes[]>([]); 
+const filteredPokemon = ref<PokemonTypes[]>([]);
 const selectedCard = ref(null);
 const limit = 24;
 const offset = ref(0);
 const selectedType = ref();
 const resetSelection = ref(false);
 
+let timeoutId: number | null = null;
 
 const fetchPokemon = async (searchTerm: any) => {
   const query = searchTerm.trim().toLowerCase();
   searchTerm = null;
 
   if (!query) {
-    filteredPokemon.value = [...dataList.value]; 
+    filteredPokemon.value = [...dataList.value];
     return;
   }
 
@@ -84,10 +94,10 @@ const fetchPokemon = async (searchTerm: any) => {
       name: res.data.name,
       types: res.data.types,
     };
-    
+
     filteredPokemon.value = [pokemon];
   } catch (error) {
-    console.error('Erro ao buscar Pokémon:', error);
+    console.error("Erro ao buscar Pokémon:", error);
     filteredPokemon.value = [];
   } finally {
     isLoading.value = false;
@@ -107,38 +117,39 @@ const fetchTypeDetails = async (id: number) => {
         id: pokemonRes.data.id,
         name: pokemonRes.data.name,
         types: pokemonRes.data.types,
-      } as PokemonTypes; 
+      } as PokemonTypes;
     });
 
     const pokemonDetails = await Promise.all(pokemonPromises);
 
     filteredPokemon.value = pokemonDetails;
-    console.log(filteredPokemon.value, 'aa');
-    
+    console.log(filteredPokemon.value, "aa");
   } catch (error) {
-    console.error('Erro ao buscar detalhes do tipo:', error);
+    console.error("Erro ao buscar detalhes do tipo:", error);
   } finally {
     isLoading.value = false;
   }
-}
+};
 
 const loadMore = async () => {
   isLoading.value = true;
   try {
     const res = await http.getItens(limit, offset.value);
+    console.log(res.data);
+    
     const newData = res.data.results.map((item: any) => ({
       name: item.name,
       id: getIdFromUrl(item.url),
-      types: []
+      types: [],
     }));
 
     dataList.value.push(...newData);
     filteredPokemon.value = [...dataList.value];
     offset.value += limit;
 
-    scrollToBottom(); 
+    scrollToBottom();
   } catch (error) {
-    console.error('Erro ao carregar mais Pokémon:', error);
+    console.error("Erro ao carregar mais Pokémon:", error);
   } finally {
     isLoading.value = false;
   }
@@ -146,10 +157,14 @@ const loadMore = async () => {
 
 const handleSearch = (searchTerm: string): void => {
   resetSelection.value = true;
-  setTimeout(() => {
-    resetSelection.value = false;
-  }, 0);
-  fetchPokemon(searchTerm);
+
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+
+  timeoutId = setTimeout(() => {
+    fetchPokemon(searchTerm);
+  }, 300); 
 };
 
 const handleSelectCard = (card: any) => {
@@ -160,24 +175,23 @@ const handleCloseSidebar = () => {
   selectedCard.value = null;
 };
 
-
 const scrollToTop = () => {
-  const container = document.querySelector('.content-main');
-  container?.scrollTo({ top: 0, behavior: 'smooth' });
+  const container = document.querySelector(".content-main");
+  container?.scrollTo({ top: 0, behavior: "smooth" });
 };
 const scrollToBottom = () => {
-  const container = document.querySelector('.content-main');
-  container?.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+  const container = document.querySelector(".content-main");
+  container?.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 };
 
-const handleSelectedType = (typeId: number) => {
+const handleSelectedType = (typeId: number| string) => {
   selectedType.value = typeId;
-  fetchTypeDetails(typeId);
+  fetchTypeDetails(Number(typeId));
   scrollToTop();
 };
 
 onMounted(() => {
-  loadMore(); 
+  loadMore();
 });
 </script>
 
@@ -187,7 +201,7 @@ onMounted(() => {
   align-items: center;
   width: 100%;
   height: 5rem;
-  padding: 0 2rem;
+  padding: 0 4rem;
   justify-content: space-between;
 }
 
@@ -196,8 +210,8 @@ onMounted(() => {
   gap: 0.5rem;
 }
 
-.content-main{
-  height: 78vh;
+.content-main {
+  height: 85vh;
   overflow-y: auto;
   box-sizing: border-box;
 
@@ -222,16 +236,16 @@ onMounted(() => {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-  gap: 20px; 
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 2rem 4rem;
 }
-.footer{
+.footer {
   width: 100%;
-    display: flex;
-    bottom: 0;
-    align-items: flex-start;
-    justify-content: center;
+  display: flex;
+  bottom: 0;
+  align-items: flex-start;
+  justify-content: center;
   .load-more-button {
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
@@ -250,10 +264,10 @@ onMounted(() => {
     border-radius: 4rem;
     width: 3rem;
     height: 3rem;
-   &:hover {
-    background-color: #ff53509d;
+    &:hover {
+      background-color: #ff53509d;
+    }
   }
-}
 }
 .load {
   display: flex;
@@ -281,21 +295,29 @@ onMounted(() => {
   transform: translateX(0);
   opacity: 1;
 }
-@media screen and (max-width: 550px) {
-  .header{
-    h1{
-      display: none ;
-    }
-    .header-controls{
-     display: flex;
-  
+@media screen and (max-width: 680px) {
+  .header {
+    padding: 2rem;
+    h1 {
+      display: none;
     }
   }
   .grid-container {
+    padding: 2rem;
+  }
+}
+@media screen and (max-width: 550px) {
+  .header {
+    .header-controls {
+      display: flex;
+    }
+  }
+  .grid-container {
+    padding: 2rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
   }
-  .footer{
+  .footer {
     margin-bottom: 5rem;
   }
 }
