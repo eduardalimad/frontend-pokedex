@@ -25,7 +25,7 @@
 import { ref, watch, type PropType } from "vue";
 import PokemonTypeList from "./PokemonTypeList.vue";
 import { getIdFromUrl } from "../utils/utils";
-import type { ProcessedEvolution } from "@/types/PokemonEvolution";
+import type { PokemonEvolution, ProcessedEvolution, types } from "@/types/PokemonEvolution";
 
 // Tipos personalizados
 type TypeData = { name: string; url: string };
@@ -33,13 +33,13 @@ type Colors = Record<string, string>;
 
 const props = defineProps({
   evolutionsData: {
-    type: Array as PropType<ProcessedEvolution[]>,
+    type: Array as () => PokemonEvolution[],
     required: true,
   },
   typeData: {
-    type: Array as PropType<TypeData[]>,
-    required: true,
-  },
+      type: Array as () => types[], 
+      required: true,
+    },
 });
 const isLoading = ref(true);
 const processedEvolutions = ref<ProcessedEvolution[]>([]);
@@ -88,6 +88,7 @@ const handleError = () => {
   }, 1000);
 };
 
+
 watch(
   () => props.evolutionsData,
   (newEvolutions) => {
@@ -95,20 +96,21 @@ watch(
       isLoading.value = true;
 
       setTimeout(() => {
-        processedEvolutions.value = newEvolutions.map(
-          (evolution: ProcessedEvolution) => {
-            const url = evolution.url;
-            const id = getIdFromUrl(url ?? "");
+        processedEvolutions.value = newEvolutions.map((evolution: PokemonEvolution) => {
+          const url = evolution.url;
+          const id = getIdFromUrl(url ?? "");
 
-            return {
-              species: evolution.species,
-              id,
-              image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
-            };
-          }
-        );
+          return {
+            species: evolution.species,
+            id,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
+          } as ProcessedEvolution;
+        });
         isLoading.value = false;
       }, 300);
+    } else {
+      processedEvolutions.value = [];
+      isLoading.value = false;
     }
   },
   { immediate: true }

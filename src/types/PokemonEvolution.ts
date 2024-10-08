@@ -1,7 +1,7 @@
 export interface EvolutionDetail {
   min_level?: number;
   trigger: {
-    name: string; 
+    name: string;
   };
 }
 export interface Evolution {
@@ -18,8 +18,9 @@ export interface PokemonEvolution {
   evolutionDetails: EvolutionDetail[];
   species: string;
   url: string;
-  chain?: PokemonEvolutionChain; 
+  chain?: PokemonEvolutionChain;
 }
+
 
 export interface PokemonEvolutionChain {
   species: {
@@ -143,4 +144,8 @@ export interface PokemonItem {
   id: number;
   name: string;
   types: PokemonType[];
+}
+export interface TypeData {
+  name: string;
+  url: string;
 }

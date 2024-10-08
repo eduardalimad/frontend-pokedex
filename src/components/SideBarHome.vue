@@ -230,10 +230,10 @@ const close = () => {
 <style lang="scss" scoped>
 .sidebar {
   position: fixed;
-  top: 5.5rem;
+  top: 0em;
   right: 0;
   width: 450px;
-  height: 90%;
+  height: 100%;
   padding: 20px;
   background: var(--bgSideBar);
   border-radius: 12px;
