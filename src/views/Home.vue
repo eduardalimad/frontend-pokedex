@@ -62,8 +62,10 @@ import SideBarHome from "../components/SideBarHome.vue";
 import LoadSpinner from "@/components/LoadSpinner.vue";
 import http from "../services/reports/index";
 import { getIdFromUrl } from "../utils/utils";
+import { handleHttpError } from '@/utils/httpErrorHandler';
 import axios from "axios";
 import type { PokemonTypes, PokemonItem } from "@/types/PokemonEvolution";
+import { useToast } from 'vue-toastification'
 
 const isLoading = ref(false);
 const dataList = ref<PokemonItem[]>([]);
@@ -73,6 +75,7 @@ const limit = 24;
 const offset = ref(0);
 const selectedType = ref();
 const resetSelection = ref(false);
+const toast = useToast()
 
 let timeoutId: number | null = null;
 
@@ -97,7 +100,10 @@ const fetchPokemon = async (searchTerm: any) => {
 
     filteredPokemon.value = [pokemon];
   } catch (error) {
-    console.error("Erro ao buscar Pokémon:", error);
+    const errorMessage = handleHttpError(error);
+    toast.error(errorMessage)
+    
+    
     filteredPokemon.value = [];
   } finally {
     isLoading.value = false;
@@ -121,11 +127,11 @@ const fetchTypeDetails = async (id: number) => {
     });
 
     const pokemonDetails = await Promise.all(pokemonPromises);
-
     filteredPokemon.value = pokemonDetails;
-    console.log(filteredPokemon.value, "aa");
+
   } catch (error) {
-    console.error("Erro ao buscar detalhes do tipo:", error);
+    const errorMessage = handleHttpError(error);
+    toast.error(errorMessage)
   } finally {
     isLoading.value = false;
   }
@@ -135,7 +141,6 @@ const loadMore = async () => {
   isLoading.value = true;
   try {
     const res = await http.getItens(limit, offset.value);
-    console.log(res.data);
     
     const newData = res.data.results.map((item: any) => ({
       name: item.name,
@@ -149,7 +154,9 @@ const loadMore = async () => {
 
     scrollToBottom();
   } catch (error) {
-    console.error("Erro ao carregar mais Pokémon:", error);
+    const errorMessage = handleHttpError(error);
+    toast.error('Erro ao carregar mais Pokémon -' + errorMessage)
+
   } finally {
     isLoading.value = false;
   }

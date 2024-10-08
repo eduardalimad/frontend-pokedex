@@ -70,6 +70,8 @@ import type {
   EvolutionDetail,
 } from "@/types/PokemonEvolution";
 import { useFavoriteStore } from "@/stores/useFavoriteStore";
+import { handleHttpError } from "@/utils/httpErrorHandler";
+import { useToast } from "vue-toastification";
 
 const props = defineProps({
   card: {
@@ -89,6 +91,7 @@ const isLoading = ref(true);
 const favoriteStore = useFavoriteStore();
 const { isFavorite, toggleFavorite } = favoriteStore;
 const currentImageIndex = ref(0);
+const toast = useToast()
 
 const getInfoPokemon = async (id: number) => {
   isLoading.value = true;
@@ -96,12 +99,14 @@ const getInfoPokemon = async (id: number) => {
   try {
     const res = await http.getPokemon(id);
     const idEvolutions = res.data.evolution_chain;
+    const idPokemon = await getIdFromUrl(idEvolutions.url);
+    await getEvolutionData(idPokemon);
 
-    const idE = await getIdFromUrl(idEvolutions.url);
-
-    await getEvolutionData(idE);
   } catch (error) {
-    console.log(error);
+    
+    const errorMessage = handleHttpError(error);
+    toast.error(errorMessage)
+
   } finally {
     isLoading.value = false;
   }
@@ -114,7 +119,8 @@ const getStatsPokemon = async (id: number) => {
     dataStats.value = res.data.stats;
     dataAbout.value = res.data;
   } catch (error) {
-    console.log(error);
+    const errorMessage = handleHttpError(error);
+    toast.error(errorMessage)
   } finally {
     isLoading.value = false;
   }
@@ -127,7 +133,10 @@ const getEvolutionData = async (id: number) => {
 
     isLoading.value = false;
   } catch (error) {
-    console.log(error);
+    const errorMessage = handleHttpError(error);
+    toast.error(errorMessage)
+
+  }finally {
     isLoading.value = false;
   }
 };
