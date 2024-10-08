@@ -4,9 +4,6 @@ export default {
   getItens: async (limit: number, offset: number) => {
     return await http.get(`pokemon?limit=${limit}&offset=${offset}`)
   },
-  getPokemonStats: async (id:number) => {
-    return await http.get(`pokemon/${id}/`)
-  },
   getPokemon: async (id:number) => {
     return await http.get(`pokemon-species/${id}/`)
   },
