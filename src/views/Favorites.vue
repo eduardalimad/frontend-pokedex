@@ -1,5 +1,10 @@
 <template>
-  <section class="grid-container">
+<div v-if="favorites.length <= 0" class="container-msg">
+  <span>Sua lista de favoritos está vazia. <br> 
+    Nenhum Pokémon foi adicionado ainda.</span>
+  <img src="../assets/img/sticker-icon.png" alt="Imagem pikachu triste" >
+</div>
+  <section class="grid-container" v-else>
     <CardInfo
       v-for="(item, index) in favorites"
       :key="index"
@@ -43,11 +48,25 @@ const { favorites } = favoriteStore;
     background: #555;
   }
 }
+.container-msg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+  height: 70vh;
+
+}
 
 @media screen and (max-width: 584px) {
   .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
   }
+  .container-msg{
+  img{
+    margin-top: -5rem;
+  }
+}
 }
 </style>
